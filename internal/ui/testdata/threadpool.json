@@ -1,0 +1,29 @@
+[
+  {
+    "node_name": "node-1",
+    "name": "search",
+    "active": "5",
+    "queue": "0",
+    "rejected": "0",
+    "completed": "1000",
+    "size": "25"
+  },
+  {
+    "node_name": "node-1",
+    "name": "write",
+    "active": "2",
+    "queue": "0",
+    "rejected": "0",
+    "completed": "500",
+    "size": "10"
+  },
+  {
+    "node_name": "node-2",
+    "name": "search",
+    "active": "3",
+    "queue": "1",
+    "rejected": "2",
+    "completed": "800",
+    "size": "25"
+  }
+]

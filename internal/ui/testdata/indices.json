@@ -1,0 +1,26 @@
+[
+  {
+    "health": "green",
+    "status": "open",
+    "index": "test-index-1",
+    "uuid": "abc123def456",
+    "pri": "5",
+    "rep": "1",
+    "docs.count": "10000",
+    "docs.deleted": "50",
+    "store.size": "10mb",
+    "pri.store.size": "5mb"
+  },
+  {
+    "health": "yellow",
+    "status": "open",
+    "index": "test-index-2",
+    "uuid": "xyz789uvw012",
+    "pri": "3",
+    "rep": "1",
+    "docs.count": "5000",
+    "docs.deleted": "10",
+    "store.size": "8mb",
+    "pri.store.size": "4mb"
+  }
+]

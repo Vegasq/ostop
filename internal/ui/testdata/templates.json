@@ -1,0 +1,14 @@
+[
+  {
+    "name": "logs-template",
+    "index_patterns": "[logs-*]",
+    "order": "1",
+    "version": "1"
+  },
+  {
+    "name": "metrics-template",
+    "index_patterns": "[metrics-*]",
+    "order": "2",
+    "version": "2"
+  }
+]

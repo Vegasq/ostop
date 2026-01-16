@@ -1,0 +1,41 @@
+{
+  "test-index-1": {
+    "mappings": {
+      "properties": {
+        "user": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "timestamp": {
+          "type": "date"
+        },
+        "status": {
+          "type": "keyword"
+        },
+        "message": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "keyword"
+            },
+            "version": {
+              "type": "keyword"
+            }
+          }
+        },
+        "count": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "index": "test-index-1",
+    "shard": "0",
+    "prirep": "p",
+    "state": "STARTED",
+    "docs": "2000",
+    "store": "2mb",
+    "ip": "192.168.1.1",
+    "node": "node-1"
+  },
+  {
+    "index": "test-index-1",
+    "shard": "0",
+    "prirep": "r",
+    "state": "STARTED",
+    "docs": "2000",
+    "store": "2mb",
+    "ip": "192.168.1.2",
+    "node": "node-2"
+  },
+  {
+    "index": "test-index-1",
+    "shard": "1",
+    "prirep": "p",
+    "state": "RELOCATING",
+    "docs": "1800",
+    "store": "1.8mb",
+    "ip": "192.168.1.1",
+    "node": "node-1"
+  }
+]

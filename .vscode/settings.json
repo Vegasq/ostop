@@ -1,0 +1,13 @@
+{
+    "go.toolsManagement.autoUpdate": true,
+    "go.useLanguageServer": true,
+    "go.lintOnSave": "workspace",
+    "go.formatTool": "gofmt",
+    "go.buildOnSave": "off",
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    }
+}

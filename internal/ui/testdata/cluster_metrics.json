@@ -1,0 +1,73 @@
+{
+  "_shards": {
+    "total": 10,
+    "successful": 10,
+    "failed": 0
+  },
+  "_all": {
+    "primaries": {
+      "docs": {
+        "count": 1234567,
+        "deleted": 5432
+      },
+      "store": {
+        "size_in_bytes": 987654321
+      },
+      "indexing": {
+        "index_total": 1500000,
+        "index_time_in_millis": 567890,
+        "index_current": 2,
+        "index_failed": 100,
+        "delete_total": 5000,
+        "delete_time_in_millis": 1234,
+        "delete_current": 0,
+        "noop_update_total": 0,
+        "is_throttled": false,
+        "throttle_time_in_millis": 0
+      },
+      "search": {
+        "query_total": 987654,
+        "query_time_in_millis": 123456,
+        "query_current": 5,
+        "fetch_total": 456789,
+        "fetch_time_in_millis": 67890,
+        "fetch_current": 1,
+        "scroll_total": 123,
+        "scroll_time_in_millis": 4567,
+        "scroll_current": 0
+      }
+    },
+    "total": {
+      "docs": {
+        "count": 2469134,
+        "deleted": 10864
+      },
+      "store": {
+        "size_in_bytes": 1975308642
+      },
+      "indexing": {
+        "index_total": 3000000,
+        "index_time_in_millis": 1135780,
+        "index_current": 4,
+        "index_failed": 200,
+        "delete_total": 10000,
+        "delete_time_in_millis": 2468,
+        "delete_current": 0,
+        "noop_update_total": 0,
+        "is_throttled": false,
+        "throttle_time_in_millis": 0
+      },
+      "search": {
+        "query_total": 1975308,
+        "query_time_in_millis": 246912,
+        "query_current": 10,
+        "fetch_total": 913578,
+        "fetch_time_in_millis": 135780,
+        "fetch_current": 2,
+        "scroll_total": 246,
+        "scroll_time_in_millis": 9134,
+        "scroll_current": 0
+      }
+    }
+  }
+}

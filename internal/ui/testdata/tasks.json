@@ -1,0 +1,26 @@
+[
+  {
+    "action": "indices:data/write/bulk",
+    "task_id": "node-1:12345",
+    "parent_task_id": "",
+    "type": "transport",
+    "start_time": "1234567890",
+    "timestamp": "12:34:56",
+    "running_time": "1.5s",
+    "ip": "192.168.1.1",
+    "node": "node-1",
+    "description": "bulk[123]"
+  },
+  {
+    "action": "indices:data/read/search",
+    "task_id": "node-2:67890",
+    "parent_task_id": "",
+    "type": "transport",
+    "start_time": "1234567900",
+    "timestamp": "12:35:00",
+    "running_time": "500ms",
+    "ip": "192.168.1.2",
+    "node": "node-2",
+    "description": "search[test-index]"
+  }
+]

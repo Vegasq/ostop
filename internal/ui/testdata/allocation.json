@@ -1,0 +1,24 @@
+[
+  {
+    "shards": "15",
+    "disk.indices": "350gb",
+    "disk.used": "400gb",
+    "disk.avail": "600gb",
+    "disk.total": "1tb",
+    "disk.percent": "40",
+    "host": "192.168.1.1",
+    "ip": "192.168.1.1",
+    "node": "node-1"
+  },
+  {
+    "shards": "12",
+    "disk.indices": "420gb",
+    "disk.used": "450gb",
+    "disk.avail": "550gb",
+    "disk.total": "1tb",
+    "disk.percent": "45",
+    "host": "192.168.1.2",
+    "ip": "192.168.1.2",
+    "node": "node-2"
+  }
+]

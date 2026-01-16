@@ -1,0 +1,19 @@
+{
+  "cluster_name": "test-cluster",
+  "status": "green",
+  "indices": {
+    "count": 15,
+    "docs": {
+      "count": 1000000
+    },
+    "store": {
+      "size_in_bytes": 5368709120
+    }
+  },
+  "nodes": {
+    "count": {
+      "total": 3,
+      "data": 2
+    }
+  }
+}

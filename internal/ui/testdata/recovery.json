@@ -1,0 +1,32 @@
+[
+  {
+    "index": "test-index-1",
+    "shard": "0",
+    "time": "5m",
+    "type": "peer",
+    "stage": "done",
+    "source_node": "node-1",
+    "target_node": "node-2",
+    "files": "100",
+    "files_recovered": "100",
+    "files_percent": "100.0%",
+    "bytes": "1gb",
+    "bytes_recovered": "1gb",
+    "bytes_percent": "100.0%"
+  },
+  {
+    "index": "test-index-2",
+    "shard": "1",
+    "time": "2m",
+    "type": "snapshot",
+    "stage": "translog",
+    "source_node": "repository",
+    "target_node": "node-1",
+    "files": "50",
+    "files_recovered": "40",
+    "files_percent": "80.0%",
+    "bytes": "500mb",
+    "bytes_recovered": "400mb",
+    "bytes_percent": "80.0%"
+  }
+]

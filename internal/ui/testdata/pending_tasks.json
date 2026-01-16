@@ -1,0 +1,14 @@
+[
+  {
+    "insertOrder": "1",
+    "timeInQueue": "100ms",
+    "priority": "URGENT",
+    "source": "create-index [test-index]"
+  },
+  {
+    "insertOrder": "2",
+    "timeInQueue": "50ms",
+    "priority": "HIGH",
+    "source": "update-mapping [test-index]"
+  }
+]

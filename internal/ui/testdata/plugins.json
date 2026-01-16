@@ -1,0 +1,16 @@
+[
+  {
+    "id": "node-1",
+    "name": "analysis-icu",
+    "component": "analysis-icu",
+    "version": "7.10.2",
+    "description": "The ICU Analysis plugin integrates Lucene ICU module"
+  },
+  {
+    "id": "node-1",
+    "name": "repository-s3",
+    "component": "repository-s3",
+    "version": "7.10.2",
+    "description": "The S3 repository plugin adds S3 repositories"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "index": "test-index-1",
+    "shard": "0",
+    "prirep": "p",
+    "ip": "192.168.1.1",
+    "segment": "_0",
+    "generation": "0",
+    "docs.count": "1000",
+    "docs.deleted": "10",
+    "size": "2mb",
+    "committed": "true"
+  },
+  {
+    "index": "test-index-1",
+    "shard": "0",
+    "prirep": "p",
+    "ip": "192.168.1.1",
+    "segment": "_1",
+    "generation": "1",
+    "docs.count": "800",
+    "docs.deleted": "5",
+    "size": "1.5mb",
+    "committed": "true"
+  }
+]
