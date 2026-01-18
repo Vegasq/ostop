@@ -3,8 +3,8 @@ description: OpenSearch Terminal UI - Monitor your clusters from the command lin
 url: "https://ostop.mkla.dev"
 baseurl: ""
 
-# Dark theme with single-column layout
-remote_theme: pages-themes/slate@v0.2.0
+# Minimal theme - simple and clean
+remote_theme: pages-themes/minimal@v0.2.0
 plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag

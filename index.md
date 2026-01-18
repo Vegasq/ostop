@@ -7,6 +7,8 @@ title: ostop - OpenSearch Terminal UI
 
 A terminal-based monitoring dashboard for OpenSearch clusters, focused on cluster operations and capacity planning.
 
+![ostop demo](https://raw.githubusercontent.com/Vegasq/ostop/refs/heads/main/demo.gif)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Version](https://img.shields.io/badge/go-%3E%3D1.21-blue)](https://go.dev)
 

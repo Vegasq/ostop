@@ -3,7 +3,25 @@
 
 @import "{{ site.theme }}";
 
-// Custom dark theme enhancements for ostop
+// Override and enhance Slate theme with comprehensive dark styling
+
+// Base dark background
+body {
+  background-color: #0d1117 !important;
+  color: #c9d1d9 !important;
+}
+
+#main_content_wrap {
+  background: #0d1117 !important;
+}
+
+#main_content {
+  background: #0d1117 !important;
+}
+
+.inner {
+  background: #0d1117 !important;
+}
 
 // Smooth scroll behavior
 html {
@@ -63,6 +81,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1.5em;
   margin-bottom: 0.5em;
   font-weight: 600;
+  color: #f0f6fc !important;
 }
 
 h1 {
@@ -73,6 +92,15 @@ h1 {
 h2 {
   border-bottom: 1px solid #444;
   padding-bottom: 0.3em;
+}
+
+// Paragraph and text styling
+p, li, td, th {
+  color: #c9d1d9 !important;
+}
+
+strong, b {
+  color: #f0f6fc !important;
 }
 
 // Link styling
@@ -146,4 +174,45 @@ ul li {
 // Section spacing
 section {
   margin-bottom: 2em;
+}
+
+// Header styling (override Slate theme header if present)
+#header_wrap {
+  background: #161b22 !important;
+  border-bottom: 1px solid #30363d;
+}
+
+#project_title {
+  color: #f0f6fc !important;
+}
+
+#project_tagline {
+  color: #8b949e !important;
+}
+
+// Ensure no white backgrounds anywhere
+div, section, article, aside, main {
+  background-color: transparent;
+}
+
+// Blockquote styling
+blockquote {
+  background-color: #161b22;
+  border-left: 4px solid #4CAF50;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  color: #8b949e;
+}
+
+// Inline code in paragraphs
+p code, li code {
+  background-color: #2a2a2a !important;
+  color: #f0f6fc !important;
+}
+
+// Code in table cells - make readable
+table td code, table th code {
+  background-color: transparent !important;
+  color: #c9d1d9 !important;
+  padding: 0 !important;
 }
