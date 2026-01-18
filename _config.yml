@@ -1,7 +1,7 @@
 title: ostop
 description: OpenSearch Terminal UI - Monitor your clusters from the command line
-url: "https://vegasq.github.io"
-baseurl: "/ostop"
+url: "https://ostop.mkla.dev"
+baseurl: ""
 
 # Dark theme with single-column layout
 remote_theme: pages-themes/slate@v0.2.0
