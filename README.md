@@ -2,6 +2,8 @@
 
 A terminal-based monitoring dashboard for OpenSearch clusters, focused on cluster operations and capacity planning.
 
+![ostop demo](demo.gif)
+
 **[📚 Documentation Website](https://ostop.mkla.dev)**
 
 ## Features
