@@ -2,6 +2,8 @@
 
 A terminal-based monitoring dashboard for OpenSearch clusters, focused on cluster operations and capacity planning.
 
+**[📚 Documentation Website](https://vegasq.github.io/ostop)**
+
 ## Features
 
 - 🏥 **Cluster Health** - Real-time cluster status monitoring
