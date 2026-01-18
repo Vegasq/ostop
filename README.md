@@ -22,8 +22,62 @@ A terminal-based monitoring dashboard for OpenSearch clusters, focused on cluste
 
 ## Installation
 
+### Quick Install (Recommended)
+
+Install the latest version with a single command:
+
+**Linux/macOS:**
+
 ```bash
-# Build from source
+curl -sSL https://ostop.mkla.dev/install.sh | bash
+```
+
+This will automatically detect your OS and architecture, download the appropriate binary, and install it to `/usr/local/bin`.
+
+To install to a custom location:
+
+```bash
+INSTALL_DIR=$HOME/.local/bin curl -sSL https://ostop.mkla.dev/install.sh | bash
+```
+
+**Windows (PowerShell):**
+
+```powershell
+irm https://ostop.mkla.dev/install.ps1 | iex
+```
+
+This will install to `%LOCALAPPDATA%\Programs\ostop` and provide instructions to add it to your PATH.
+
+To install to a custom location:
+
+```powershell
+$env:OSTOP_INSTALL_DIR = "C:\custom\path"; irm https://ostop.mkla.dev/install.ps1 | iex
+```
+
+### Download Pre-built Binaries
+
+Alternatively, download the latest release for your platform from [GitHub Releases](https://github.com/Vegasq/ostop/releases):
+
+```bash
+# Example for Linux/macOS
+# Download the appropriate binary for your platform
+# Make it executable
+chmod +x ostop
+
+# Run it
+./ostop --endpoint <your-endpoint>
+```
+
+### Build from Source
+
+If you have Go installed, you can build from source:
+
+```bash
+# Clone the repository
+git clone https://github.com/Vegasq/ostop.git
+cd ostop
+
+# Build
 go build -o ostop main.go
 
 # Or run directly
@@ -95,9 +149,9 @@ docker run -d \
 
 ## Requirements
 
-- Go 1.21 or later
 - Access to OpenSearch cluster (local or AWS)
 - For AWS: Valid AWS credentials configured
+- For building from source: Go 1.21 or later
 
 ## AWS Authentication
 
