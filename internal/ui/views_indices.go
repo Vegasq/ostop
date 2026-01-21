@@ -91,19 +91,63 @@ func (a *App) renderShardsView() string {
 		primaryCount := 0
 		replicaCount := 0
 
+		// Group shards by index for this node
+		shardsByIndex := make(map[string]struct {
+			primaryShards int
+			replicaShards int
+		})
+
 		for _, shard := range nodeShards {
+			entry := shardsByIndex[shard.Index]
 			if shard.Prirep == "p" {
 				primaryCount++
+				entry.primaryShards++
 			} else {
 				replicaCount++
+				entry.replicaShards++
 			}
+			shardsByIndex[shard.Index] = entry
 		}
 
-		b.WriteString(valueStyle.Render(node.Name))
+		// Node header with IP if available
+		nodeDisplay := node.Name
+		if node.IP != "" {
+			nodeDisplay = fmt.Sprintf("%s (%s)", node.Name, node.IP)
+		}
+
+		b.WriteString(valueStyle.Render(nodeDisplay))
 		b.WriteString(fmt.Sprintf(" - %d shards ", len(nodeShards)))
 		b.WriteString(fmt.Sprintf("(%s %d / %s %d)\n",
 			statusGreen.Render("P:"), primaryCount,
 			statusYellow.Render("R:"), replicaCount))
+
+		// Show indices on this node
+		if len(shardsByIndex) > 0 {
+			// Get sorted list of indices
+			indices := make([]string, 0, len(shardsByIndex))
+			for index := range shardsByIndex {
+				indices = append(indices, index)
+			}
+			// Simple bubble sort
+			for i := 0; i < len(indices); i++ {
+				for j := i + 1; j < len(indices); j++ {
+					if indices[j] < indices[i] {
+						indices[i], indices[j] = indices[j], indices[i]
+					}
+				}
+			}
+
+			// Display each index with its shard counts, one per line
+			for _, index := range indices {
+				entry := shardsByIndex[index]
+				b.WriteString(fmt.Sprintf("    %s %s (P:%d/R:%d)\n",
+					labelStyle.Render("•"),
+					index,
+					entry.primaryShards,
+					entry.replicaShards))
+			}
+		}
+		b.WriteString("\n")
 	}
 
 	// Show unassigned shards if any
