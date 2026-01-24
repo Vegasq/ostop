@@ -1,0 +1,15 @@
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+Gemfile.lock
+.bundle/
+_config_dev.yml
+
+# Go
+*.out
+coverage*.out
+
+# OS
+.DS_Store
