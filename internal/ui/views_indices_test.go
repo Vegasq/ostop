@@ -306,3 +306,89 @@ func TestApp_RenderShardsView_PrimaryAndReplicaCounting(t *testing.T) {
 		t.Error("renderShardsView() should show replica count of 2")
 	}
 }
+
+func TestApp_RenderShardsView_IndicesPerNode(t *testing.T) {
+	app := &App{
+		nodes: []NodeInfo{
+			{Name: "node-1", IP: "10.0.1.1"},
+			{Name: "node-2", IP: "10.0.1.2"},
+		},
+		shards: []ShardInfo{
+			{Index: "index-a", Shard: "0", Prirep: "p", State: "STARTED", Node: "node-1"},
+			{Index: "index-a", Shard: "1", Prirep: "r", State: "STARTED", Node: "node-1"},
+			{Index: "index-b", Shard: "0", Prirep: "p", State: "STARTED", Node: "node-1"},
+			{Index: "index-c", Shard: "0", Prirep: "p", State: "STARTED", Node: "node-2"},
+			{Index: "index-c", Shard: "1", Prirep: "p", State: "STARTED", Node: "node-2"},
+			{Index: "index-c", Shard: "2", Prirep: "r", State: "STARTED", Node: "node-2"},
+		},
+	}
+
+	result := app.renderShardsView()
+
+	// Check that node IP addresses are shown
+	if !strings.Contains(result, "10.0.1.1") {
+		t.Error("renderShardsView() should show node IP addresses")
+	}
+
+	// Check that specific indices appear with their counts
+	if !strings.Contains(result, "index-a") {
+		t.Error("renderShardsView() should show index-a")
+	}
+	if !strings.Contains(result, "index-b") {
+		t.Error("renderShardsView() should show index-b")
+	}
+	if !strings.Contains(result, "index-c") {
+		t.Error("renderShardsView() should show index-c")
+	}
+
+	// Check for shard count format (P:X/R:Y)
+	if !strings.Contains(result, "P:") || !strings.Contains(result, "/R:") {
+		t.Error("renderShardsView() should show shard counts in P:X/R:Y format")
+	}
+
+	// Check for bullet point formatting
+	if !strings.Contains(result, "•") {
+		t.Error("renderShardsView() should show bullet points for indices")
+	}
+}
+
+func TestApp_RenderShardsView_MultipleIndicesOnNode(t *testing.T) {
+	app := &App{
+		nodes: []NodeInfo{
+			{Name: "node-1"},
+		},
+		shards: []ShardInfo{
+			{Index: "users", Shard: "0", Prirep: "p", State: "STARTED", Node: "node-1"},
+			{Index: "users", Shard: "1", Prirep: "p", State: "STARTED", Node: "node-1"},
+			{Index: "orders", Shard: "0", Prirep: "p", State: "STARTED", Node: "node-1"},
+			{Index: "products", Shard: "0", Prirep: "r", State: "STARTED", Node: "node-1"},
+		},
+	}
+
+	result := app.renderShardsView()
+
+	// Check that all indices are shown
+	if !strings.Contains(result, "users") {
+		t.Error("renderShardsView() should show users index")
+	}
+	if !strings.Contains(result, "orders") {
+		t.Error("renderShardsView() should show orders index")
+	}
+	if !strings.Contains(result, "products") {
+		t.Error("renderShardsView() should show products index")
+	}
+
+	// Check that indices are sorted alphabetically
+	usersPos := strings.Index(result, "users")
+	ordersPos := strings.Index(result, "orders")
+	productsPos := strings.Index(result, "products")
+
+	if ordersPos < 0 || productsPos < 0 || usersPos < 0 {
+		t.Error("renderShardsView() should contain all index names")
+	}
+
+	// orders < products < users (alphabetically)
+	if ordersPos >= productsPos || productsPos >= usersPos {
+		t.Error("renderShardsView() should sort indices alphabetically")
+	}
+}
