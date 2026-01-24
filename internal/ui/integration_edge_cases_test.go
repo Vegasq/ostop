@@ -237,39 +237,9 @@ func TestIntegration_EdgeCases_NilClient(t *testing.T) {
 	}
 }
 
-func TestIntegration_EdgeCases_ConcurrentUpdates(t *testing.T) {
-	app, err := InitializeTestApp()
-	if err != nil {
-		t.Fatalf("Failed to initialize test app: %v", err)
-	}
-
-	SendWindowSize(app, 120, 40)
-
-	// Simulate rapid state changes
-	done := make(chan bool)
-
-	go func() {
-		for i := 0; i < 50; i++ {
-			app.Update(tea.KeyMsg{Type: tea.KeyDown})
-		}
-		done <- true
-	}()
-
-	go func() {
-		for i := 0; i < 50; i++ {
-			app.Update(tea.KeyMsg{Type: tea.KeyTab})
-		}
-		done <- true
-	}()
-
-	<-done
-	<-done
-
-	// State should be consistent
-	if app.selectedItem < 0 || app.selectedItem > 14 {
-		t.Errorf("selectedItem out of bounds after concurrent updates: %d", app.selectedItem)
-	}
-}
+// TestIntegration_EdgeCases_ConcurrentUpdates removed because Bubble Tea
+// guarantees single-threaded Update() calls in real usage, so testing
+// concurrent updates would be testing an impossible scenario.
 
 func TestIntegration_EdgeCases_RefreshDuringViewChange(t *testing.T) {
 	app, err := SetupTestApp()
