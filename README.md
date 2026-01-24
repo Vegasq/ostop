@@ -1,5 +1,7 @@
 # ostop - OpenSearch Terminal UI
 
+[![Tests](https://github.com/Vegasq/ostop/actions/workflows/test.yml/badge.svg)](https://github.com/Vegasq/ostop/actions/workflows/test.yml)
+
 A terminal-based monitoring dashboard for OpenSearch clusters, focused on cluster operations and capacity planning.
 
 ![ostop demo](demo.gif)
