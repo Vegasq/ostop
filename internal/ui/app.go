@@ -50,20 +50,27 @@ type App struct {
 	metricsTimeSeries *MetricsTimeSeries
 	metricsEnabled    bool
 	lastMetricsUpdate time.Time
+
+	// Thread Pool Monitor state
+	threadPoolTimeSeries *ThreadPoolTimeSeries
+	threadPoolEnabled    bool
+	lastThreadPoolUpdate time.Time
 }
 
 // NewApp creates a new application instance
 func NewApp(client *opensearch.Client, endpoint string) *App {
 	return &App{
-		client:            client,
-		endpoint:          endpoint,
-		loading:           true,
-		currentView:       ViewCluster,
-		activePanel:       PanelLeft,
-		selectedItem:      0,
-		leftPanelWidth:    28,
-		metricsTimeSeries: NewMetricsTimeSeries(12), // Last 60 seconds at 5-second intervals
-		metricsEnabled:    false,                     // Enabled when user navigates to Live Metrics view
+		client:               client,
+		endpoint:             endpoint,
+		loading:              true,
+		currentView:          ViewCluster,
+		activePanel:          PanelLeft,
+		selectedItem:         0,
+		leftPanelWidth:       28,
+		metricsTimeSeries:    NewMetricsTimeSeries(12),    // Last 60 seconds at 5-second intervals
+		metricsEnabled:       false,                       // Enabled when user navigates to Live Metrics view
+		threadPoolTimeSeries: NewThreadPoolTimeSeries(12), // Last 60 seconds at 5-second intervals
+		threadPoolEnabled:    false,                       // Enabled when user navigates to Thread Pool Monitor view
 	}
 }
 
@@ -85,6 +92,18 @@ func (a *App) refreshMetrics() tea.Cmd {
 		ctx := context.Background()
 		snapshot, err := a.fetchClusterMetrics(ctx)
 		return metricsRefreshMsg{
+			snapshot: snapshot,
+			err:      err,
+		}
+	}
+}
+
+// refreshThreadPoolMetrics fetches thread pool metrics in the background
+func (a *App) refreshThreadPoolMetrics() tea.Cmd {
+	return func() tea.Msg {
+		ctx := context.Background()
+		snapshot, err := a.fetchThreadPoolMetrics(ctx)
+		return threadPoolRefreshMsg{
 			snapshot: snapshot,
 			err:      err,
 		}
@@ -174,7 +193,7 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "down", "j":
 			if a.activePanel == PanelLeft {
 				// Navigate menu
-				if a.selectedItem < 14 { // Updated for ViewLiveMetrics
+				if a.selectedItem < 15 { // Updated for ViewThreadPoolMonitor
 					a.selectedItem++
 					return a, a.updateViewFromSelectionCmd()
 				}
@@ -301,6 +320,29 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		}
+
+	case threadPoolTickMsg:
+		// Only process tick if thread pool monitoring is enabled
+		if a.threadPoolEnabled {
+			// Fetch new metrics and schedule next tick
+			return a, tea.Batch(a.refreshThreadPoolMetrics(), threadPoolTick())
+		}
+		// If disabled, don't schedule next tick
+		return a, nil
+
+	case threadPoolRefreshMsg:
+		if msg.err != nil {
+			// Log error but don't stop ticker
+			log.Printf("Thread pool metrics fetch error: %v", msg.err)
+		} else if msg.snapshot != nil {
+			// Add snapshot to time series
+			a.threadPoolTimeSeries.AddSnapshot(msg.snapshot)
+			a.lastThreadPoolUpdate = time.Now()
+			// Update viewport if we're on the thread pool monitor view
+			if a.currentView == ViewThreadPoolMonitor {
+				a.updateViewportContent()
+			}
+		}
 	}
 
 	// Update viewport (for smooth scrolling) only when right panel is active
@@ -322,6 +364,11 @@ func (a *App) updateViewFromSelection() {
 	wasEnabled := a.metricsEnabled
 	a.metricsEnabled = (a.currentView == ViewLiveMetrics)
 
+	// Enable/disable thread pool monitoring based on view
+	wasThreadPoolEnabled := a.threadPoolEnabled
+	a.threadPoolEnabled = (a.currentView == ViewThreadPoolMonitor)
+	_ = wasThreadPoolEnabled
+
 	// Update viewport content
 	a.updateViewportContent()
 
@@ -339,19 +386,31 @@ func (a *App) updateViewFromSelection() {
 func (a *App) updateViewFromSelectionCmd() tea.Cmd {
 	previousView := a.currentView
 	wasEnabled := a.metricsEnabled
+	wasThreadPoolEnabled := a.threadPoolEnabled
 
 	// Update view state
 	a.updateViewFromSelection()
 
+	var cmds []tea.Cmd
+
 	// Start metrics ticker if transitioning to Live Metrics view
 	if !wasEnabled && a.metricsEnabled {
 		// Start ticker and immediate first fetch
-		return tea.Batch(a.refreshMetrics(), metricsTick())
+		cmds = append(cmds, a.refreshMetrics(), metricsTick())
 	}
 
-	// Stop ticker if leaving Live Metrics view (handled by metricsEnabled flag in tick handler)
+	// Start thread pool ticker if transitioning to Thread Pool Monitor view
+	if !wasThreadPoolEnabled && a.threadPoolEnabled {
+		// Start ticker and immediate first fetch
+		cmds = append(cmds, a.refreshThreadPoolMetrics(), threadPoolTick())
+	}
+
+	// Stop ticker if leaving views (handled by enabled flags in tick handlers)
 	_ = previousView
 
+	if len(cmds) > 0 {
+		return tea.Batch(cmds...)
+	}
 	return nil
 }
 

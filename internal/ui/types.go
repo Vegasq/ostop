@@ -21,6 +21,7 @@ const (
 	ViewFielddata
 	ViewPlugins
 	ViewTemplates
+	ViewThreadPoolMonitor
 	ViewIndexSchema // Special view accessed via drill-down from Indices
 )
 
@@ -260,23 +261,48 @@ type MetricsSummary struct {
 	Min     float64
 }
 
+// ThreadPoolSnapshot represents a single point-in-time measurement of thread pools
+type ThreadPoolSnapshot struct {
+	Timestamp time.Time
+	Pools     map[string]ThreadPoolStats // key = pool name
+}
+
+// ThreadPoolStats represents stats for a single thread pool
+type ThreadPoolStats struct {
+	QueueDepth    int64 // Total queued across all nodes
+	RejectedTotal int64 // Cumulative rejections across all nodes
+}
+
+// ThreadPoolDataPoint represents calculated metrics over an interval
+type ThreadPoolDataPoint struct {
+	Timestamp time.Time
+	Pools     map[string]ThreadPoolMetrics
+}
+
+// ThreadPoolMetrics contains calculated metrics for a thread pool
+type ThreadPoolMetrics struct {
+	QueueDepth    float64 // Queue depth at this timestamp
+	RejectionRate float64 // Calculated rejections/second
+}
+
 // refreshMsg is sent when data refresh completes
 type refreshMsg struct {
-	health       *ClusterHealth
-	stats        *ClusterStats
-	nodes        []NodeInfo
-	indices      []IndexInfo
-	shards       []ShardInfo
-	allocation   []AllocationInfo
-	threadPool   []ThreadPoolInfo
-	tasks        []TaskInfo
-	pendingTasks []PendingTaskInfo
-	recovery     []RecoveryInfo
-	segments     []SegmentInfo
-	fielddata    []FielddataInfo
-	plugins      []PluginInfo
-	templates    []TemplateInfo
-	err          error
+	health             *ClusterHealth
+	stats              *ClusterStats
+	nodes              []NodeInfo
+	indices            []IndexInfo
+	shards             []ShardInfo
+	allocation         []AllocationInfo
+	threadPool         []ThreadPoolInfo
+	tasks              []TaskInfo
+	pendingTasks       []PendingTaskInfo
+	recovery           []RecoveryInfo
+	segments           []SegmentInfo
+	fielddata          []FielddataInfo
+	plugins            []PluginInfo
+	templates          []TemplateInfo
+	threadPoolSnapshot *ThreadPoolSnapshot
+	err                error
 }
 
 // mappingMsg is sent when index mapping fetch completes
@@ -293,5 +319,16 @@ type metricsTickMsg struct {
 // metricsRefreshMsg carries fetched metrics data
 type metricsRefreshMsg struct {
 	snapshot *MetricsSnapshot
+	err      error
+}
+
+// threadPoolTickMsg triggers periodic thread pool refresh
+type threadPoolTickMsg struct {
+	timestamp time.Time
+}
+
+// threadPoolRefreshMsg carries fetched thread pool data
+type threadPoolRefreshMsg struct {
+	snapshot *ThreadPoolSnapshot
 	err      error
 }

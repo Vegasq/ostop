@@ -32,6 +32,7 @@ func (a *App) renderLeftPanel() string {
 		"Fielddata",
 		"Plugins",
 		"Templates",
+		"Thread Pool Monitor",
 	}
 
 	for i, item := range menuItems {
@@ -81,6 +82,8 @@ func (a *App) renderRightPanel() string {
 		return a.renderPluginsView()
 	case ViewTemplates:
 		return a.renderTemplatesView()
+	case ViewThreadPoolMonitor:
+		return a.renderThreadPoolMonitorView()
 	default:
 		return "Unknown view"
 	}

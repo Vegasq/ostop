@@ -16,7 +16,7 @@ func TestIntegration_Navigation_MenuUpDown(t *testing.T) {
 	}{
 		{"down from 0", 0, tea.KeyDown, 1, true},
 		{"down from 5", 5, tea.KeyDown, 6, true},
-		{"down from 14", 14, tea.KeyDown, 14, false}, // At boundary
+		{"down from 15", 15, tea.KeyDown, 15, false}, // At boundary
 		{"up from 5", 5, tea.KeyUp, 4, true},
 		{"up from 1", 1, tea.KeyUp, 0, true},
 		{"up from 0", 0, tea.KeyUp, 0, false}, // At boundary
@@ -63,11 +63,11 @@ func TestIntegration_Navigation_Boundaries(t *testing.T) {
 		t.Errorf("Should not go below 0, got %d", app.selectedItem)
 	}
 
-	// Try to go above 14
-	app.selectedItem = 14
+	// Try to go above 15
+	app.selectedItem = 15
 	app.Update(tea.KeyMsg{Type: tea.KeyDown})
-	if app.selectedItem != 14 {
-		t.Errorf("Should not go above 14, got %d", app.selectedItem)
+	if app.selectedItem != 15 {
+		t.Errorf("Should not go above 15, got %d", app.selectedItem)
 	}
 }
 
