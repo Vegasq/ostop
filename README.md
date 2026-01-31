@@ -79,12 +79,17 @@ If you have Go installed, you can build from source:
 git clone https://github.com/Vegasq/ostop.git
 cd ostop
 
-# Build
-go build -o ostop main.go
+# Build (creates a statically-linked binary)
+make build
+
+# Or build manually
+CGO_ENABLED=0 go build -ldflags="-s -w" -o ostop main.go
 
 # Or run directly
 go run main.go --endpoint <your-endpoint>
 ```
+
+**Note:** ostop builds statically-linked binaries (CGO disabled) for maximum portability across Linux distributions, including older systems like Amazon Linux 2 and Alpine Linux.
 
 ## Usage
 
@@ -171,13 +176,13 @@ This matches the behavior of `awscurl` and other AWS CLI tools.
 go mod download
 
 # Run tests
-go test ./...
+make test
 
-# Build
-go build -o ostop main.go
+# Build (statically-linked with optimizations)
+make build
 
-# Build with optimizations
-go build -o ostop -ldflags="-s -w" main.go
+# Build manually
+CGO_ENABLED=0 go build -ldflags="-s -w" -o ostop main.go
 ```
 
 ## License
