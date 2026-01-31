@@ -16,18 +16,18 @@ var (
 	activePanelStyle = lipgloss.NewStyle().
 				Border(lipgloss.RoundedBorder()).
 				BorderForeground(lipgloss.Color("39")).
-				Padding(1, 2)
+				Padding(1, 1)
 
 	inactivePanelStyle = lipgloss.NewStyle().
 				Border(lipgloss.RoundedBorder()).
 				BorderForeground(lipgloss.Color("240")).
-				Padding(1, 2)
+				Padding(1, 1)
 
 	menuItemStyle = lipgloss.NewStyle().
-			Padding(0, 2)
+			Padding(0, 0)
 
 	selectedMenuItemStyle = lipgloss.NewStyle().
-				Padding(0, 2).
+				Padding(0, 0).
 				Foreground(lipgloss.Color("39")).
 				Bold(true)
 

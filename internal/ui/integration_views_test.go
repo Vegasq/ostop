@@ -19,7 +19,7 @@ func TestIntegration_Views_AllViewsAccessible(t *testing.T) {
 		{4, ViewResources, "Resources"},
 		{5, ViewLiveMetrics, "Live Metrics"},
 		{6, ViewAllocation, "Allocation"},
-		{7, ViewThreadPool, "Thread Pool"},
+		{7, ViewThreadPool, "Thread Pool Monitor"},
 		{8, ViewTasks, "Tasks"},
 		{9, ViewPendingTasks, "Pending Tasks"},
 		{10, ViewRecovery, "Recovery"},
@@ -119,8 +119,8 @@ func TestIntegration_Views_ContentRendering(t *testing.T) {
 	SendWindowSize(app, 120, 40)
 
 	tests := []struct {
-		view         View
-		name         string
+		view              View
+		name              string
 		shouldHaveContent bool
 	}{
 		{ViewCluster, "Cluster", true},

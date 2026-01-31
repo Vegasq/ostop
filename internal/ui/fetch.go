@@ -519,3 +519,60 @@ func (a *App) fetchClusterMetrics(ctx context.Context) (*MetricsSnapshot, error)
 		SearchTotal: statsResponse.All.Primaries.Search.QueryTotal,
 	}, nil
 }
+
+// fetchThreadPoolMetrics fetches thread pool statistics and aggregates them
+func (a *App) fetchThreadPoolMetrics(ctx context.Context) (*ThreadPoolSnapshot, error) {
+	// Fetch all thread pool data
+	threadPools, err := a.fetchThreadPool(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Define the pools we want to monitor
+	targetPools := map[string]bool{
+		"search":     true,
+		"write":      true,
+		"get":        true,
+		"bulk":       true,
+		"management": true,
+	}
+
+	// Aggregate stats per pool across all nodes
+	poolStats := make(map[string]ThreadPoolStats)
+
+	for _, tp := range threadPools {
+		// Skip if not a target pool
+		if !targetPools[tp.Name] {
+			continue
+		}
+
+		// Parse queue depth
+		var queue int64
+		fmt.Sscanf(tp.Queue, "%d", &queue)
+
+		// Parse rejected count
+		var rejected int64
+		fmt.Sscanf(tp.Rejected, "%d", &rejected)
+
+		// Aggregate into pool stats
+		stats := poolStats[tp.Name]
+		stats.QueueDepth += queue
+		stats.RejectedTotal += rejected
+		poolStats[tp.Name] = stats
+	}
+
+	// Ensure all target pools have entries (even if zero)
+	for poolName := range targetPools {
+		if _, exists := poolStats[poolName]; !exists {
+			poolStats[poolName] = ThreadPoolStats{
+				QueueDepth:    0,
+				RejectedTotal: 0,
+			}
+		}
+	}
+
+	return &ThreadPoolSnapshot{
+		Timestamp: time.Now(),
+		Pools:     poolStats,
+	}, nil
+}
