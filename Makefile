@@ -21,7 +21,7 @@ lint:
 
 # Build the application
 build:
-	go build -o ostop .
+	CGO_ENABLED=0 go build -ldflags="-s -w" -o ostop .
 
 # Run the application
 run:
